@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from './components/Chart';
 import Header from './components/Header';
+import Filter from './components/Filter';
 
 class Container extends React.Component{
     constructor(){
@@ -143,6 +144,7 @@ class Container extends React.Component{
             <div>
                 <Header/>
                 <Chart graphData={this.state.graphData} />
+                <Filter/>
             </div>
         )
     }
