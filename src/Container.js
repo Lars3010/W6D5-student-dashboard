@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from './components/Chart';
-import {VictoryBar, VictoryChart, VictoryGroup, VictoryAxis} from 'victory';
+import Header from './components/Header';
 
 class Container extends React.Component{
     constructor(){
@@ -26,6 +26,8 @@ class Container extends React.Component{
                 {id: 4, studentID: 2, assignmentID: 2, difficultyGrade: 2, reviewGrade: 3},
                 {id: 5, studentID: 3, assignmentID: 5, difficultyGrade: 3, reviewGrade: 4},
                 {id: 6, studentID: 4, assignmentID: 5, difficultyGrade: 2, reviewGrade: 3},
+                {id: 7, studentID: 4, assignmentID: 4, difficultyGrade: 4, reviewGrade: 5},
+                {id: 8, studentID: 4, assignmentID: 3, difficultyGrade: 1, reviewGrade: 2},
             ],
             graphData: []
         }
@@ -83,15 +85,14 @@ class Container extends React.Component{
      * @param {array} reviewGrades Array with review grades
      */
     setCombinedAverage = (data) => {
-        let combinedAvgGrades = [];
+        const combinedAvgGrades = [];
         try {
             const averageDifficultyGrade = this.getAverage(data.difficultyGrades);
             const averageReviewGrade = this.getAverage(data.reviewGrades);
-            combinedAvgGrades = [averageDifficultyGrade, averageReviewGrade];
-        } catch (error) {
-            //console.log(error);
+            combinedAvgGrades.push(averageDifficultyGrade, averageReviewGrade);
+        } finally {
+            return combinedAvgGrades;
         }
-        return combinedAvgGrades;
     }
 
     /**
@@ -123,7 +124,6 @@ class Container extends React.Component{
         const averageData = filteredData.map((data, index) => {
             return {assignmentName: names[index], averageDifficultyGrade: data[0], averageReviewGrade: data[1]}
         })
-        console.log('avg',averageData);
         return averageData;
     }
 
@@ -140,34 +140,9 @@ class Container extends React.Component{
 
     render() {
         return (
-            <div >
-                {/* <Chart averageData={this.getAverageFromAllAssignments} /> */}
-                <VictoryChart >
-                    <VictoryGroup offset={20}>
-                        <VictoryBar
-                            data={this.state.graphData}
-                            x="assignmentName"
-                            y="averageDifficultyGrade"
-                            tickValues={[1,2,3,4,5,6]}
-                            tickFormat={this.state.graphData.map(item => item.assignmentName)}
-                        />
-                        <VictoryBar
-                            data={this.state.graphData}
-                            x="assignmentName"
-                            y="averageReviewGrade"
-                            tickValues={[1,2,3,4,5,6]}
-                            tickFormat={this.state.graphData.map(item => item.assignmentName)}
-
-                        />
-                    </VictoryGroup>
-                    <VictoryAxis
-                        tickFormat={this.state.graphData.map(item => item.assignmentName)}
-                    />
-                    <VictoryAxis
-                        dependentAxis
-                        tickValues={[1,2,3,4,5]}
-                    />
-                </VictoryChart>
+            <div>
+                <Header/>
+                <Chart graphData={this.state.graphData} />
             </div>
         )
     }
