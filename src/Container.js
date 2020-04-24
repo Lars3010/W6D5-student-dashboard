@@ -35,6 +35,8 @@ class Container extends React.Component{
         }
     }
 
+    
+
     /**
      * Function that returns an average from an array of numbers
      * @param {array} score array of numbers
@@ -144,7 +146,7 @@ class Container extends React.Component{
         return (
             <BrowserRouter>
                 <div>
-                    <Header/>
+                    <Header students={this.state.students} handlechange={this.studentSelectHandleChange}/>
                     <Switch>
                         {/* <Chart graphData={this.state.graphData} /> */}
                         <Route exact path="/" render={props => <Chart graphData={this.state.graphData}/> }/>
