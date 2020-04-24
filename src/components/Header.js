@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 
 function Header(props){
     const options = props.students.map(student => {
-        return <option key={student.id} value={`/student/${student.id}`}>{student.firstName}</option>
+        return <option key={student.id} value={student.id}>{student.firstName}</option>
     });
 
     const studentSelectHandleChange = (event) => {
