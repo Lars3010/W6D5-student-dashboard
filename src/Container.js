@@ -1,6 +1,8 @@
 import React from 'react';
+import {BrowserRouter,Switch, Route} from 'react-router-dom';
 import Chart from './components/Chart';
 import Header from './components/Header';
+import Student from './components/Student';
 
 class Container extends React.Component{
     constructor(){
@@ -140,10 +142,16 @@ class Container extends React.Component{
 
     render() {
         return (
-            <div>
-                <Header/>
-                <Chart graphData={this.state.graphData} />
-            </div>
+            <BrowserRouter>
+                <div>
+                    <Header/>
+                    <Switch>
+                        {/* <Chart graphData={this.state.graphData} /> */}
+                        <Route exact path="/" render={props => <Chart graphData={this.state.graphData}/> }/>
+                        <Route path="/student/:id" render={props => <Student/>}/>
+                    </Switch>
+                </div>
+            </BrowserRouter>
         )
     }
 }
