@@ -35,7 +35,29 @@ class Container extends React.Component{
         }
     }
 
-    
+    getGradesFromStudent = (id) => {
+        const state = {...this.state};
+        const studentID = parseInt(id);
+        const fromStudent = state.gradings.filter(item => {
+            return item.studentID === studentID
+        });
+        const grades = fromStudent.map(item => {
+            const assignmentName = this.getAssignmentName(item.assignmentID);
+            return {assignmentName:assignmentName, difficultyGrade: item.difficultyGrade, reviewGrade:item.reviewGrade}
+        });
+        return grades
+    }
+
+    getStudentInfo = (id) => {
+        const state = [...this.state.students];
+        const studentID = parseInt(id);
+        const student = state.filter(student => {
+            return student.id === studentID
+        });
+        console.log('student', student);
+        
+        return student;
+    }
 
     /**
      * Function that returns an average from an array of numbers
@@ -126,7 +148,7 @@ class Container extends React.Component{
         })
 
         const averageData = filteredData.map((data, index) => {
-            return {assignmentName: names[index], averageDifficultyGrade: data[0], averageReviewGrade: data[1]}
+            return {assignmentName: names[index], difficultyGrade: data[0], reviewGrade: data[1]}
         })
         return averageData;
     }
@@ -139,7 +161,14 @@ class Container extends React.Component{
     }
 
     componentDidMount(){
+        console.log('mount');
+        this.getGradesFromStudent(4);
         this.setAverageFromAll()
+    }
+
+    componentDidUpdate(){
+        console.log('update');
+        
     }
 
     render() {
@@ -148,9 +177,8 @@ class Container extends React.Component{
                 <div>
                     <Header students={this.state.students} handlechange={this.studentSelectHandleChange}/>
                     <Switch>
-                        {/* <Chart graphData={this.state.graphData} /> */}
                         <Route exact path="/" render={props => <Chart graphData={this.state.graphData}/> }/>
-                        <Route path="/student/:id" render={props => <Student/>}/>
+                        <Route path="/:id" render={props => <Student {...props}studentInfo={this.getStudentInfo(props.match.params.id)} data={this.getGradesFromStudent(props.match.params.id)}/>}/>
                     </Switch>
                 </div>
             </BrowserRouter>
