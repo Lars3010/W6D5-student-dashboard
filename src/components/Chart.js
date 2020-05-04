@@ -9,14 +9,14 @@ function Chart(props){
                     <VictoryBar
                         data={props.graphData}
                         x="assignmentName"
-                        y="averageDifficultyGrade"
+                        y="difficultyGrade"
                         tickValues={[1,2,3,4,5,6]}
                         tickFormat={props.graphData.map(item => item.assignmentName)}
                     />
                     <VictoryBar
                         data={props.graphData}
                         x="assignmentName"
-                        y="averageReviewGrade"
+                        y="reviewGrade"
                         tickValues={[1,2,3,4,5,6]}
                         tickFormat={props.graphData.map(item => item.assignmentName)}
 

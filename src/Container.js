@@ -1,7 +1,9 @@
 import React from 'react';
+import {BrowserRouter,Switch, Route} from 'react-router-dom';
 import Chart from './components/Chart';
 import Header from './components/Header';
 import Filter from './components/Filter';
+import Student from './components/Student';
 
 class Container extends React.Component{
     constructor(){
@@ -32,6 +34,30 @@ class Container extends React.Component{
             ],
             graphData: []
         }
+    }
+
+    getGradesFromStudent = (id) => {
+        const state = {...this.state};
+        const studentID = parseInt(id);
+        const fromStudent = state.gradings.filter(item => {
+            return item.studentID === studentID
+        });
+        const grades = fromStudent.map(item => {
+            const assignmentName = this.getAssignmentName(item.assignmentID);
+            return {assignmentName:assignmentName, difficultyGrade: item.difficultyGrade, reviewGrade:item.reviewGrade}
+        });
+        return grades
+    }
+
+    getStudentInfo = (id) => {
+        const state = [...this.state.students];
+        const studentID = parseInt(id);
+        const student = state.filter(student => {
+            return student.id === studentID
+        });
+        console.log('student', student);
+        
+        return student;
     }
 
     /**
@@ -123,7 +149,7 @@ class Container extends React.Component{
         })
 
         const averageData = filteredData.map((data, index) => {
-            return {assignmentName: names[index], averageDifficultyGrade: data[0], averageReviewGrade: data[1]}
+            return {assignmentName: names[index], difficultyGrade: data[0], reviewGrade: data[1]}
         })
         return averageData;
     }
@@ -136,16 +162,27 @@ class Container extends React.Component{
     }
 
     componentDidMount(){
+        console.log('mount');
+        this.getGradesFromStudent(4);
         this.setAverageFromAll()
+    }
+
+    componentDidUpdate(){
+        console.log('update');
+        
     }
 
     render() {
         return (
-            <div>
-                <Header/>
-                <Chart graphData={this.state.graphData} />
-                <Filter/>
-            </div>
+            <BrowserRouter>
+                <div>
+                    <Header students={this.state.students} handlechange={this.studentSelectHandleChange}/>
+                    <Switch>
+                        <Route exact path="/" render={props => <Chart graphData={this.state.graphData}/> }/>
+                        <Route path="/:id" render={props => <Student {...props}studentInfo={this.getStudentInfo(props.match.params.id)} data={this.getGradesFromStudent(props.match.params.id)}/>}/>
+                    </Switch>
+                </div>
+            </BrowserRouter>
         )
     }
 }
