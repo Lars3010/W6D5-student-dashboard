@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter,Switch, Route} from 'react-router-dom';
 import Chart from './components/Chart';
 import Header from './components/Header';
+import Filter from './components/Filter';
 import Student from './components/Student';
 
 class Container extends React.Component{
