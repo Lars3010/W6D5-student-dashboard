@@ -6,7 +6,7 @@ function Student(props){
     return (
         <div>
             <h1>{studentInfo.firstName}</h1>
-            <Chart graphData={props.data}/>
+            <Chart graphData={props.data} radioState={props.radioState} handleFilterChange={props.handleFilterChange}/>
         </div>
     )
 }

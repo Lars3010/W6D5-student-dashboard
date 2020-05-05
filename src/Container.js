@@ -2,7 +2,6 @@ import React from 'react';
 import {BrowserRouter,Switch, Route} from 'react-router-dom';
 import Chart from './components/Chart';
 import Header from './components/Header';
-import Filter from './components/Filter';
 import Student from './components/Student';
 
 class Container extends React.Component{
@@ -32,7 +31,31 @@ class Container extends React.Component{
                 {id: 7, studentID: 4, assignmentID: 4, difficultyGrade: 4, reviewGrade: 5},
                 {id: 8, studentID: 4, assignmentID: 3, difficultyGrade: 1, reviewGrade: 2},
             ],
-            graphData: []
+            graphData: [],
+            radioState: {difficulty: true, review: true},
+            filteredBool: false
+        }
+    }
+
+    handleFilterChange = (event) => {
+        if(event.target.type === "radio"){
+            switch(event.target.value){
+                case('difficulty'):
+                    this.setState(
+                        {radioState: {difficulty: true, review: false}, filteredBool: true}
+                    )
+                    break;
+                case('review'):
+                    this.setState(
+                        {radioState: {difficulty: false, review: true}, filteredBool: true}
+                    )
+                    break;
+                default:
+                    this.setState(
+                        {radioState: {difficulty: true, review: true}, filteredBool: false}
+                    )
+                    break;
+            }
         }
     }
 
@@ -163,7 +186,6 @@ class Container extends React.Component{
 
     componentDidMount(){
         console.log('mount');
-        this.getGradesFromStudent(4);
         this.setAverageFromAll()
     }
 
@@ -178,8 +200,20 @@ class Container extends React.Component{
                 <div>
                     <Header students={this.state.students} handlechange={this.studentSelectHandleChange}/>
                     <Switch>
-                        <Route exact path="/" render={props => <Chart graphData={this.state.graphData}/> }/>
-                        <Route path="/:id" render={props => <Student {...props}studentInfo={this.getStudentInfo(props.match.params.id)} data={this.getGradesFromStudent(props.match.params.id)}/>}/>
+                        <Route exact path="/" render={props => <Chart
+                            graphData={this.state.graphData}
+                            radioState={this.state.radioState}
+                            handleFilterChange={this.handleFilterChange}
+                            /> }
+                        />
+                        <Route path="/:id" render={props => <Student
+                            {...props}
+                            studentInfo={this.getStudentInfo(props.match.params.id)}
+                            data={this.getGradesFromStudent(props.match.params.id)}
+                            radioState={this.state.radioState}
+                            handleFilterChange={this.handleFilterChange}
+                            />}
+                        />
                     </Switch>
                 </div>
             </BrowserRouter>
