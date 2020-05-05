@@ -22,10 +22,8 @@ function Chart(props){
         />
     </VictoryGroup>
 
-    console.log(props.radioState);
     if(props.graphData.length > 0 && props.radioState){
         if(props.radioState.difficulty === true && props.radioState.review === true){
-            console.log('both', props.graphData[0].difficultyGrade, props.graphData[0].reviewGrade);
             graph = <VictoryGroup offset={20}>
             <VictoryBar
                 data={props.graphData}
@@ -43,7 +41,6 @@ function Chart(props){
             />
         </VictoryGroup>
         } else if(props.radioState.difficulty === true && props.radioState.review === false){
-            console.log('difficulty', props.graphData[0].difficultyGrade);
             graph = <VictoryGroup offset={20}>
                 <VictoryBar
                     data={props.graphData}
@@ -53,8 +50,7 @@ function Chart(props){
                     tickFormat={props.graphData.map(item => item.assignmentName)}
                 />
             </VictoryGroup>
-        } else if(props.radioState.difficulty === false && props.radioState.review === true){
-            console.log('review', props.graphData[0].reviewGrade);  
+        } else if(props.radioState.difficulty === false && props.radioState.review === true){ 
             graph = <VictoryGroup offset={20}>
             <VictoryBar
                 data={props.graphData}

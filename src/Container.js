@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter,Switch, Route} from 'react-router-dom';
+import studentData from './data';
 import Chart from './components/Chart';
 import Header from './components/Header';
 import Student from './components/Student';
@@ -9,32 +10,81 @@ class Container extends React.Component{
         super();
         this.state = {
             students: [
-                {id: 1, firstName: "Evelyn"},
-                {id: 2, firstName: "Aranka"},
-                {id: 3, firstName: "Floris"},
-                {id: 4, firstName: "Hector"},
+                // {id: 1, firstName: "Evelyn"},
+                // {id: 2, firstName: "Aranka"},
+                // {id: 3, firstName: "Floris"},
+                // {id: 4, firstName: "Hector"},
             ],
             assignments: [
-                {id: 1, name: "W1D1-1"},
-                {id: 2, name: "W1D1-2"},
-                {id: 3, name: "W1D1-3"},
-                {id: 4, name: "W1D4"},
-                {id: 5, name: "W1D5 - Guess the Number"},
+                // {id: 1, name: "W1D1-1"},
+                // {id: 2, name: "W1D1-2"},
+                // {id: 3, name: "W1D1-3"},
+                // {id: 4, name: "W1D4"},
+                // {id: 5, name: "W1D5 - Guess the Number"},
             ],
             gradings: [
-                {id: 1, studentID: 1, assignmentID: 1, difficultyGrade: 3, reviewGrade: 3},
-                {id: 2, studentID: 1, assignmentID: 1, difficultyGrade: 1, reviewGrade: 3},
-                {id: 3, studentID: 2, assignmentID: 1, difficultyGrade: 1, reviewGrade: 4},
-                {id: 4, studentID: 2, assignmentID: 2, difficultyGrade: 2, reviewGrade: 3},
-                {id: 5, studentID: 3, assignmentID: 5, difficultyGrade: 3, reviewGrade: 4},
-                {id: 6, studentID: 4, assignmentID: 5, difficultyGrade: 2, reviewGrade: 3},
-                {id: 7, studentID: 4, assignmentID: 4, difficultyGrade: 4, reviewGrade: 5},
-                {id: 8, studentID: 4, assignmentID: 3, difficultyGrade: 1, reviewGrade: 2},
+                // {id: 1, studentID: 1, assignmentID: 1, difficultyGrade: 3, reviewGrade: 3},
+                // {id: 2, studentID: 1, assignmentID: 1, difficultyGrade: 1, reviewGrade: 3},
+                // {id: 3, studentID: 2, assignmentID: 1, difficultyGrade: 1, reviewGrade: 4},
+                // {id: 4, studentID: 2, assignmentID: 2, difficultyGrade: 2, reviewGrade: 3},
+                // {id: 5, studentID: 3, assignmentID: 5, difficultyGrade: 3, reviewGrade: 4},
+                // {id: 6, studentID: 4, assignmentID: 5, difficultyGrade: 2, reviewGrade: 3},
+                // {id: 7, studentID: 4, assignmentID: 4, difficultyGrade: 4, reviewGrade: 5},
+                // {id: 8, studentID: 4, assignmentID: 3, difficultyGrade: 1, reviewGrade: 2},
             ],
             graphData: [],
             radioState: {difficulty: true, review: true},
             filteredBool: false
         }
+    }
+
+    removeDuplicates = (array) => {
+        return array.filter((item,index) => array.indexOf(item) === index);
+    }
+
+    getAssignmentId = (name, assignments) => {
+        const assignment = assignments.filter(assignment => {
+            return assignment.name === name
+        });
+        return assignment[0].id;
+    }
+
+    getStudentId = (name, students) => {
+        const student = students.filter(student => {
+            return student.firstName === name
+        });
+        return student[0].id;
+    }
+
+    getStudentState = (data) => {
+        const allStudents = data.map((student) => {
+            return student.studentName 
+        })
+        const uniqueStudents = this.removeDuplicates(allStudents);
+        const students = uniqueStudents.map((item,index) => {
+            return {id: index+1, firstName: item}
+        })
+        return students;
+    }
+
+    getAssignmentState = (data) => {
+        const allAssignments = data.map((item) => {
+            return item.assignment 
+        })
+        const uniqueAssignments = this.removeDuplicates(allAssignments);
+        const assignments = uniqueAssignments.map((item,index) => {
+            return {id: index+1, name: item}
+        })
+        return assignments;
+    }
+
+    getGradingState = (data, students, assignments) => {
+        const gradings = data.map((item, index) => {
+            const studentID = this.getStudentId(item.studentName, students);
+            const assignmentID = this.getAssignmentId(item.assignment, assignments);
+            return {id: index + 1, studentID: studentID, assignmentID: assignmentID, difficultyGrade: item.difficulty, reviewGrade: item.review}
+        })
+        return gradings;
     }
 
     handleFilterChange = (event) => {
@@ -78,8 +128,6 @@ class Container extends React.Component{
         const student = state.filter(student => {
             return student.id === studentID
         });
-        console.log('student', student);
-        
         return student;
     }
 
@@ -184,13 +232,35 @@ class Container extends React.Component{
         });
     }
 
-    componentDidMount(){
-        console.log('mount');
-        this.setAverageFromAll()
+    loadDataIntoState = (data) => {
+        const newStudents = this.getStudentState(data);
+        const newAssignments = this.getAssignmentState(data);
+        const newGradings = this.getGradingState(data, newStudents, newAssignments);
+        this.setState({
+            students: newStudents,
+            assignments: newAssignments,
+            gradings: newGradings
+        }, () => {console.log(this.state);
+        });
     }
 
-    componentDidUpdate(){
+    componentDidMount(){
+        console.log('mount');
+        this.loadDataIntoState(studentData);
+        console.log(this.state);
+    }
+    
+    componentDidUpdate(prevProps, prevState){
         console.log('update');
+        console.log('prevstate', prevState);
+        
+        if (this.state === prevState) {
+            console.log('newState',this.state);
+            this.setAverageFromAll();
+        } else {
+            console.log('x');
+            
+        }
         
     }
 
