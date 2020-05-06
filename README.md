@@ -1,5 +1,6 @@
 # React Student Dashboard
 Het doel van deze opdracht was het gemakkelijk maken voor Winc docenten om in één overzicht te zien hoe de studenten de opdrachten evalueren. Winc zou graag, per opdracht, de evaluatie van iedere student willen zien in een "Bar Chart".
+
 ![ ](https://github.com/Lars3010/W6D5-student-dashboard/blob/master/src/assets/screenshot.png)
 
 ## Requirements
