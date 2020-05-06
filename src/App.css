@@ -1,11 +1,35 @@
 body{
     margin:0;
     padding: 0;
+    font-family: Roboto, Helvetica, sans-serif;
 }
 
 header{
     padding: 10px;
     border-bottom: 1px solid #ccc;
+}
+header > label > select {
+    margin-left: 10px;
+}
+
+#logo {
+    margin-right: 50px;
+}
+
+.container{
+    padding: 0 50px 0 50px;
+}
+
+.filter > h3{
+    margin-bottom: 5px;
+}
+
+.filter > #input-container > label{
+    margin-right: 10px;
+}
+
+.filter > #input-container > label:last-of-type{
+    margin-right: 0px;
 }
 
 .VictoryContainer {

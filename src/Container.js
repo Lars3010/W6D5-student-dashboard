@@ -38,10 +38,19 @@ class Container extends React.Component{
         }
     }
 
+    /**
+     * removes duplicates from array
+     * @param {array} array array with duplicate values
+     */
     removeDuplicates = (array) => {
         return array.filter((item,index) => array.indexOf(item) === index);
     }
 
+    /**
+     * get assignment id by name
+     * @param {string} name assignmentname
+     * @param {array} assignments all assignments
+     */
     getAssignmentId = (name, assignments) => {
         const assignment = assignments.filter(assignment => {
             return assignment.name === name
@@ -49,6 +58,11 @@ class Container extends React.Component{
         return assignment[0].id;
     }
 
+    /**
+     * get student id by name
+     * @param {string} name studentname
+     * @param {array} students all students
+     */
     getStudentId = (name, students) => {
         const student = students.filter(student => {
             return student.firstName === name
@@ -56,6 +70,10 @@ class Container extends React.Component{
         return student[0].id;
     }
 
+    /**
+     * get students from data and add id
+     * @param {array} data all data
+     */
     getStudentState = (data) => {
         const allStudents = data.map((student) => {
             return student.studentName 
@@ -67,6 +85,10 @@ class Container extends React.Component{
         return students;
     }
 
+    /**
+     * get assignments from data and add id
+     * @param {array} data all data
+     */
     getAssignmentState = (data) => {
         const allAssignments = data.map((item) => {
             return item.assignment 
@@ -78,6 +100,12 @@ class Container extends React.Component{
         return assignments;
     }
 
+    /**
+     * get grades from data with student and assignment id
+     * @param {array} data all data
+     * @param {array} students all unique students
+     * @param {array} assignments all unique assignments
+     */
     getGradingState = (data, students, assignments) => {
         const gradings = data.map((item, index) => {
             const studentID = this.getStudentId(item.studentName, students);
@@ -87,6 +115,9 @@ class Container extends React.Component{
         return gradings;
     }
 
+    /**
+     * handles filter form change
+     */
     handleFilterChange = (event) => {
         if(event.target.type === "radio"){
             switch(event.target.value){
@@ -109,6 +140,10 @@ class Container extends React.Component{
         }
     }
 
+    /**
+     * get grades from student by id
+     * @param {number} id student id
+     */
     getGradesFromStudent = (id) => {
         const state = {...this.state};
         const studentID = parseInt(id);
@@ -122,6 +157,10 @@ class Container extends React.Component{
         return grades
     }
 
+    /**
+     * Get all info from student by id
+     * @param {number} id student id
+     */
     getStudentInfo = (id) => {
         const state = [...this.state.students];
         const studentID = parseInt(id);
@@ -232,6 +271,10 @@ class Container extends React.Component{
         });
     }
 
+    /**
+     * Loads all data into state
+     * @param {array} data array with all data
+     */
     loadDataIntoState = (data) => {
         const newStudents = this.getStudentState(data);
         const newAssignments = this.getAssignmentState(data);
@@ -240,28 +283,13 @@ class Container extends React.Component{
             students: newStudents,
             assignments: newAssignments,
             gradings: newGradings
-        }, () => {console.log(this.state);
+        }, () => {
+            this.setAverageFromAll();
         });
     }
 
     componentDidMount(){
-        console.log('mount');
         this.loadDataIntoState(studentData);
-        console.log(this.state);
-    }
-    
-    componentDidUpdate(prevProps, prevState){
-        console.log('update');
-        console.log('prevstate', prevState);
-        
-        if (this.state === prevState) {
-            console.log('newState',this.state);
-            this.setAverageFromAll();
-        } else {
-            console.log('x');
-            
-        }
-        
     }
 
     render() {
@@ -269,22 +297,28 @@ class Container extends React.Component{
             <BrowserRouter>
                 <div>
                     <Header students={this.state.students} handlechange={this.studentSelectHandleChange}/>
-                    <Switch>
-                        <Route exact path="/" render={props => <Chart
-                            graphData={this.state.graphData}
-                            radioState={this.state.radioState}
-                            handleFilterChange={this.handleFilterChange}
-                            /> }
-                        />
-                        <Route path="/:id" render={props => <Student
-                            {...props}
-                            studentInfo={this.getStudentInfo(props.match.params.id)}
-                            data={this.getGradesFromStudent(props.match.params.id)}
-                            radioState={this.state.radioState}
-                            handleFilterChange={this.handleFilterChange}
-                            />}
-                        />
-                    </Switch>
+                    <div className="container">
+                        <Switch>
+                            <Route exact path="/" render={props =>
+                            <React.Fragment>
+                                <h1>Average per assignment</h1>
+                                <Chart
+                                    graphData={this.state.graphData}
+                                    radioState={this.state.radioState}
+                                    handleFilterChange={this.handleFilterChange}
+                                 />
+                            </React.Fragment>}
+                            />
+                            <Route path="/:id" render={props => <Student
+                                {...props}
+                                studentInfo={this.getStudentInfo(props.match.params.id)}
+                                data={this.getGradesFromStudent(props.match.params.id)}
+                                radioState={this.state.radioState}
+                                handleFilterChange={this.handleFilterChange}
+                                />}
+                            />
+                        </Switch>
+                    </div>
                 </div>
             </BrowserRouter>
         )

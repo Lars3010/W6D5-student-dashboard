@@ -51,12 +51,12 @@ const wincTheme = {
         },
         tickLabels: {
           fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
-          fontSize: 12,
+          fontSize: 7,
           letterSpacing: "normal",
           padding: 8,
           fill: "#455A64",
           stroke: "transparent",
-          strokeWidth: 0
+          strokeWidth: 0,
         }
       },
       width: 350,
@@ -213,8 +213,8 @@ const wincTheme = {
     },
     group: {
       colorScale: [
-        "#F4511E",
-        "#FFF59D",
+        "#4a90e2",
+        "#65c1c3",
         "#DCE775",
         "#8BC34A",
         "#00796B",
@@ -282,57 +282,6 @@ const wincTheme = {
       height: 350,
       padding: 50
     },
-    pie: {
-      colorScale: [
-        "#F4511E",
-        "#FFF59D",
-        "#DCE775",
-        "#8BC34A",
-        "#00796B",
-        "#006064"
-      ],
-      style: {
-        data: {
-          padding: 8,
-          stroke: "#ECEFF1",
-          strokeWidth: 1
-        },
-        labels: {
-          fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
-          fontSize: 12,
-          letterSpacing: "normal",
-          padding: 20,
-          fill: "#455A64",
-          stroke: "transparent",
-          strokeWidth: 0
-        }
-      },
-      width: 350,
-      height: 350,
-      padding: 50
-    },
-    scatter: {
-      style: {
-        data: {
-          fill: "#455A64",
-          opacity: 1,
-          stroke: "transparent",
-          strokeWidth: 0
-        },
-        labels: {
-          fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
-          fontSize: 12,
-          letterSpacing: "normal",
-          padding: 8,
-          fill: "#455A64",
-          stroke: "transparent",
-          strokeWidth: 0
-        }
-      },
-      width: 350,
-      height: 350,
-      padding: 50
-    },
     stack: {
       colorScale: [
         "#F4511E",
@@ -365,34 +314,6 @@ const wincTheme = {
       },
       cornerRadius: 5,
       pointerLength: 10
-    },
-    voronoi: {
-      style: {
-        data: {
-          fill: "transparent",
-          stroke: "transparent",
-          strokeWidth: 0
-        },
-        labels: {
-          fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
-          fontSize: 12,
-          letterSpacing: "normal",
-          padding: 5,
-          fill: "#455A64",
-          stroke: "transparent",
-          strokeWidth: 0,
-          pointerEvents: "none"
-        },
-        flyout: {
-          stroke: "#212121",
-          strokeWidth: 1,
-          fill: "#f0f0f0",
-          pointerEvents: "none"
-        }
-      },
-      width: 350,
-      height: 350,
-      padding: 50
     }
   };
 

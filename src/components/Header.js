@@ -13,11 +13,13 @@ function Header(props){
 
     return(
         <header>
-            <Link to="/"><img src={Logo} alt="Winc Academy Logo"/></Link>
-            <select name="select-student" id="select-student" onChange={studentSelectHandleChange}>
-                <option value="/">-</option>
-                {options}
-            </select>
+            <Link to="/"><img src={Logo} alt="Winc Academy Logo" id="logo"/></Link>
+            <label>Filter per student
+                <select name="select-student" id="select-student" onChange={studentSelectHandleChange}>
+                    <option value="/">-</option>
+                    {options}
+                </select>
+            </label>
         </header>
     )
 }
