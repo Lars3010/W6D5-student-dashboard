@@ -4,8 +4,9 @@ Het doel van deze opdracht was het gemakkelijk maken voor Winc docenten om in é
 ## Requirements
 - [x] Als je de pagina (tool) opent zien we gelijk een staafdiagram met de evaluaties voor alle dagen van alle studenten – Laat een staafdiagram zien van de evaluaties (meting van beide cijfers tegelijk)
 - [x] Per student aparte Routing - op deze dedicated pagina's voor studenten krijg je een ander soort grafiek / overzicht te zien
-- [ ] Als gebruiker van de tool kan je op een aantal manieren de data "slicen en dicen":
-    1. [ ] Een of beide metingen weergeven (dus óf hoe leuk de opdracht was, óf hoe moeilijk, óf beide!)
+- [x] Als gebruiker van de tool kan je op een aantal manieren de data "slicen en dicen":
+    **Kies één van de onderstaande manieren**
+    1. [x] Een of beide metingen weergeven (dus óf hoe leuk de opdracht was, óf hoe moeilijk, óf beide!)
     2. [ ] Weergave van de metingen van meerdere mensen (maar niet iedereen) - dus filteren op naam van de studenten die je wilt laten weergeven (van een of n-aantal studenten). 
     ***[Met een checkbox de verschillende studenten selecteren die je wilt weergeven]***
     3. [ ] Gemiddelde cijfer in de vorm van line chart.... 
